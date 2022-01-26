@@ -38,6 +38,15 @@ app.route('/api')
   })
 
 // */api
+app.route('/api/version')
+  .get(function(req, res) {
+    res.json({
+        status: "success",
+        version: "1.0.0"
+    })
+  })
+
+// */api
 app.route('/api/new')
   .post(function(req, res) {
     temp.insertOne(
