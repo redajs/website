@@ -48,7 +48,9 @@ app.route('/api/version')
 
 // */api
 app.route('/api/new')
-  .post(function(req, res) {
+  .post(async function(req, res) {
+    let exists = await checkIfTemplateExists(req.body.name) 
+    if(exists) return;
     temp.insertOne(
       {
         name: req.body.name,
