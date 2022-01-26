@@ -17,6 +17,12 @@ let temp = db.db("Redajs").collection("template")
 app.use(bodyParser.json());
 app.use(cors());
 
+async function checkIfTemplateExists(name) {
+  const template = await temp.findOne({name: name})
+
+  return template == null;
+}
+
 // *
 app.route('/')
   .get(function(req, res) {
