@@ -29,6 +29,8 @@ app.route('/')
     res.send(fs.readFileSync('./router/home/home.html', 'utf8'));
   })
 
+
+
 // */api
 app.route('/api')
   .get(function(req, res) {
@@ -37,7 +39,7 @@ app.route('/api')
     })
   })
 
-// */api
+// */api/version
 app.route('/api/version')
   .get(function(req, res) {
     res.json({
@@ -73,7 +75,7 @@ app.route('/api/new')
   })
 
 // */api/get&temp=:temp
-app.route('/api/get&temp=:temp')
+app.route('/api/&temp=:temp')
   .get(function(req, res) {
     temp.find({ name: req.params.temp }).toArray(function(err, data) {
       if (err) res.json({ status: "err" })
