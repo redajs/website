@@ -29,8 +29,6 @@ app.route('/')
     res.send(fs.readFileSync('./router/home/home.html', 'utf8'));
   })
 
-
-
 // */api
 app.route('/api')
   .get(function(req, res) {
@@ -51,27 +49,30 @@ app.route('/api/version')
 // */api
 app.route('/api/new')
   .post(async function(req, res) {
-    let exists = await checkIfTemplateExists(req.body.name) 
-    if(exists) return;
-    temp.insertOne(
-      {
-        name: req.body.name,
-        description: req.body.desc,
-        git: req.body.git,
-        send: req.body.send,
-        exec: req.body.exec
-      }
-    )
-    res.json({
-      status: "success",
-      info: {
-        name: req.body.name,
-        description: req.body.desc,
-        git: req.body.git,
-        send: req.body.send,
-        exec: req.body.exec
-      }
-    })
+    let exists = await temp.findOne({name: req.body.name}); 
+    if (exists == null) {
+      temp.insertOne(
+        {
+          name: req.body.name,
+          description: req.body.desc,
+          git: req.body.git,
+          send: req.body.send,
+          exec: req.body.exec
+        }
+      )
+      res.json({
+        status: "success",
+        info: {
+          name: req.body.name,
+          description: req.body.desc,
+          git: req.body.git,
+          send: req.body.send,
+          exec: req.body.exec
+        }
+      })
+    } else {
+      res.json({status: "err"})
+    }
   })
 
 // */api/get&temp=:temp
@@ -93,18 +94,19 @@ app.route('/api/&temp=:temp')
 
 app.listen(60000, () => {
     console.log("Website Online!")
-    /* setInterval(() => {
-      fetch('http://localhost:60000/api/new', {
-  method: 'POST', // or 'PUT'
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ name: "hello" }),
+})
+
+
+/* setInterval(() => {
+  fetch('http://localhost:60000/api/new', {
+method: 'POST', // or 'PUT'
+headers: {
+'Content-Type': 'application/json',
+},
+body: JSON.stringify({ name: "redsajs" }),
 })
 .then(response => response.json())
 .then(data => {
-  console.log(data);
-}) */
+console.log(data);
 })
-
-
+}, 3000) */
